@@ -330,12 +330,17 @@ int32_t mz_os_is_symlink(const char *path) {
 }
 
 int32_t mz_os_make_symlink(const char *path, const char *target_path) {
+#ifndef __vita__
     if (symlink(target_path, path) != 0)
+#endif
         return MZ_INTERNAL_ERROR;
+#ifndef __vita__
     return MZ_OK;
+#endif
 }
 
 int32_t mz_os_read_symlink(const char *path, char *target_path, int32_t max_target_path) {
+#ifndef __vita__
     size_t length = 0;
 
     length = (size_t)readlink(path, target_path, max_target_path - 1);
@@ -344,6 +349,7 @@ int32_t mz_os_read_symlink(const char *path, char *target_path, int32_t max_targ
 
     target_path[length] = 0;
     return MZ_OK;
+#endif
 }
 
 uint64_t mz_os_ms_time(void) {
